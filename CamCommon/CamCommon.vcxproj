@@ -11,23 +11,23 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{EF9CA22D-0C8F-42E9-AB66-98BC1A640F10}</ProjectGuid>
+    <ProjectGuid>{5FB1736A-E9FB-448C-8A8A-4C30A90CD87C}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Common</RootNamespace>
+    <RootNamespace>CamCommon</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -40,15 +40,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>../Lib/$(ProjectName)/$(Configuration)/</OutDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IntDir>../Obj/$(ProjectName)/$(Configuration)/</IntDir>
-    <LibraryPath>$(LibraryPath)</LibraryPath>
+    <IntDir>../../Obj/$(ProjectName)/$(Configuration)/</IntDir>
+    <OutDir>../../Lib/$(ProjectName)/$(Configuration)/</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>../Lib/$(ProjectName)/$(Configuration)/</OutDir>
-    <IntDir>../Obj/$(ProjectName)/$(Configuration)/</IntDir>
+    <OutDir>../../Lib/$(ProjectName)/$(Configuration)/</OutDir>
+    <IntDir>../../Obj/$(ProjectName)/$(Configuration)/</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -56,9 +53,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>/MP -Zm200 %(AdditionalOptions)</AdditionalOptions>
-      <MinimalRebuild>false</MinimalRebuild>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -73,7 +68,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>/MP -Zm200 %(AdditionalOptions)</AdditionalOptions>
+      <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -83,54 +78,87 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="common.h" />
-    <ClInclude Include="container\vectorhelper.h" />
-    <ClInclude Include="etc\autocs.h" />
-    <ClInclude Include="etc\config.h" />
-    <ClInclude Include="etc\dbg.h" />
-    <ClInclude Include="etc\filepath.h" />
-    <ClInclude Include="etc\genid.h" />
-    <ClInclude Include="etc\memorypool.h" />
-    <ClInclude Include="etc\observer.h" />
-    <ClInclude Include="etc\observer2.h" />
-    <ClInclude Include="etc\rand.h" />
-    <ClInclude Include="etc\rect.h" />
-    <ClInclude Include="etc\singleton.h" />
-    <ClInclude Include="etc\stringfunc.h" />
-    <ClInclude Include="math\Math.h" />
-    <ClInclude Include="math\mathutility.h" />
-    <ClInclude Include="math\matrix44.h" />
-    <ClInclude Include="math\plane.h" />
-    <ClInclude Include="math\quaternion.h" />
-    <ClInclude Include="math\ray.h" />
-    <ClInclude Include="math\triangle.h" />
-    <ClInclude Include="math\vector2.h" />
-    <ClInclude Include="math\vector3.h" />
-    <ClInclude Include="math\vector4.h" />
-    <ClInclude Include="stdafx.h" />
-    <ClInclude Include="targetver.h" />
+    <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="etc\config.cpp" />
-    <ClCompile Include="etc\dbg.cpp" />
-    <ClCompile Include="etc\filepath.cpp" />
-    <ClCompile Include="etc\genid.cpp" />
-    <ClCompile Include="etc\observer.cpp" />
-    <ClCompile Include="etc\observer2.cpp" />
-    <ClCompile Include="etc\rect.cpp" />
-    <ClCompile Include="etc\stringfunc.cpp" />
-    <ClCompile Include="math\matrix44.cpp" />
-    <ClCompile Include="math\plane.cpp" />
-    <ClCompile Include="math\quaternion.cpp" />
-    <ClCompile Include="math\ray.cpp" />
-    <ClCompile Include="math\triangle.cpp" />
-    <ClCompile Include="math\vector2.cpp" />
-    <ClCompile Include="math\vector3.cpp" />
-    <ClCompile Include="math\vector4.cpp" />
+    <ClInclude Include="BufferedSerial.h" />
+    <ClInclude Include="camera.h" />
+    <ClInclude Include="CameraDistortion.h" />
+    <ClInclude Include="camcommon.h" />
+    <ClInclude Include="config.h" />
+    <ClInclude Include="detectpoint.h" />
+    <ClInclude Include="dxcapture.h" />
+    <ClInclude Include="dxcaptureutil.h" />
+    <ClInclude Include="LEDBlinkCapture.h" />
+    <ClInclude Include="LEDCalibrater.h" />
+    <ClInclude Include="linecontour.h" />
+    <ClInclude Include="movie.h" />
+    <ClInclude Include="pidcontrol.h" />
+    <ClInclude Include="RecognitionConfig.h" />
+    <ClInclude Include="rectcontour.h" />
+    <ClInclude Include="roi.h" />
+    <ClInclude Include="screen.h" />
+    <ClInclude Include="searchpoint.h" />
+    <ClInclude Include="Serial.h" />
+    <ClInclude Include="sharedmemcommunication.h" />
+    <ClInclude Include="skewdetect.h" />
+    <ClInclude Include="squarecontour.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="streaming.h" />
+    <ClInclude Include="streamingreceiver.h" />
+    <ClInclude Include="streamingsender.h" />
+    <ClInclude Include="streamingviewer.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="thresholdfinder.h" />
+    <ClInclude Include="udpcommunication.h" />
+    <ClInclude Include="use_opencv.h" />
+    <ClInclude Include="util.h" />
+    <ClInclude Include="videowriter.h" />
+    <ClInclude Include="wndmsgcommunication.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="BufferedSerial.cpp" />
+    <ClCompile Include="camcommon.cpp" />
+    <ClCompile Include="camera.cpp" />
+    <ClCompile Include="CameraDistortion.cpp" />
+    <ClCompile Include="config.cpp" />
+    <ClCompile Include="detectpoint.cpp" />
+    <ClCompile Include="dxcapture.cpp" />
+    <ClCompile Include="dxcaptureutil.cpp" />
+    <ClCompile Include="LEDBlinkCapture.cpp" />
+    <ClCompile Include="LEDCalibrater.cpp" />
+    <ClCompile Include="linecontour.cpp" />
+    <ClCompile Include="movie.cpp" />
+    <ClCompile Include="pidcontrol.cpp" />
+    <ClCompile Include="RecognitionConfig.cpp" />
+    <ClCompile Include="rectcontour.cpp" />
+    <ClCompile Include="roi.cpp" />
+    <ClCompile Include="screen.cpp" />
+    <ClCompile Include="searchpoint.cpp" />
+    <ClCompile Include="Serial.cpp" />
+    <ClCompile Include="sharedmemcommunication.cpp" />
+    <ClCompile Include="skewdetect.cpp" />
+    <ClCompile Include="squarecontour.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="streamingreceiver.cpp" />
+    <ClCompile Include="streamingsender.cpp" />
+    <ClCompile Include="streamingviewer.cpp" />
+    <ClCompile Include="thresholdfinder.cpp" />
+    <ClCompile Include="udpcommunication.cpp" />
+    <ClCompile Include="util.cpp" />
+    <ClCompile Include="videowriter.cpp" />
+    <ClCompile Include="wndmsgcommunication.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.vcxproj">
+      <Project>{ef9ca22d-0c8f-42e9-ab66-98bc1a640f10}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Network\Network.vcxproj">
+      <Project>{a202aa06-f0ee-4b05-86de-da63b9f146d4}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
