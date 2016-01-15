@@ -77,8 +77,7 @@ bool network::LaunchServer(const int port, OUT SOCKET &out)
 	}
 
 	// socket(주소계열, 소켓 형식, 프로토콜)
-//	SOCKET svrSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-	SOCKET svrSocket = socket(AF_INET, SOCK_DGRAM, 0);
+	SOCKET svrSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	if(svrSocket == INVALID_SOCKET)
 	{
 		//clog::Error( clog::ERROR_CRITICAL, "socket() error\n" );

@@ -4,20 +4,21 @@
 #include <iostream>
 #include <process.h> 
 
-
 using namespace network;
 
 unsigned WINAPI UDPServerThreadFunction(void* arg);
 
 
-cUDPServer::cUDPServer() :
-	m_id(0)
+cUDPServer::cUDPServer() 
+	: m_id(0)
 	, m_isConnect(false)
 	, m_threadLoop(true)
 	, m_bufferLen(0)
-	, m_sleepMillis(10)
+	, m_maxBuffLen(BUFFER_LENGTH)
+	, m_sleepMillis(1)
 {
 	InitializeCriticalSectionAndSpinCount(&m_CriticalSection, 0x00000400);
+	m_buffer = new char[m_maxBuffLen];
 }
 
 cUDPServer::~cUDPServer()
@@ -28,6 +29,8 @@ cUDPServer::~cUDPServer()
 
 	DeleteCriticalSection(&m_CriticalSection);
 	closesocket(m_socket);
+
+	delete[] m_buffer;
 }
 
 
@@ -111,26 +114,32 @@ void cUDPServer::Close(const bool isWait) // isWait = false
 }
 
 
-// 패킷 전송
-int cUDPServer::SendData(const char *buff, const int buffLen)
+void cUDPServer::SetMaxBufferLength(const int length)
 {
-	const int result = send(m_socket, buff, buffLen, 0);
-	return result;
+	if (m_maxBuffLen != length)
+	{
+		delete[] m_buffer;
+
+		m_maxBuffLen = length;
+		m_buffer = new char[length];
+	}
 }
 
 
-void PrintBuffer(const char *buffer, const int bufferLen)
-{
-	for (int i = 0; i < bufferLen; ++i)
-		printf("%c", buffer[i]);
-	printf("\n");
-}
+// void PrintBuffer(const char *buffer, const int bufferLen)
+// {
+// 	for (int i = 0; i < bufferLen; ++i)
+// 		printf("%c", buffer[i]);
+// 	printf("\n");
+// }
 
 
 // UDP 서버 쓰레드
 unsigned WINAPI UDPServerThreadFunction(void* arg)
 {
 	cUDPServer *udp = (cUDPServer*)arg;
+
+	char *buff = new char[udp->m_maxBuffLen];
 
 	while (udp->m_threadLoop)
 	{
@@ -142,8 +151,8 @@ unsigned WINAPI UDPServerThreadFunction(void* arg)
 		const int ret = select(readSockets.fd_count, &readSockets, NULL, NULL, &t);
 		if (ret != 0 && ret != SOCKET_ERROR)
 		{
-			char buff[cUDPServer::BUFLEN];
-			const int result = recv(readSockets.fd_array[0], buff, sizeof(buff), 0);
+			//char buff[cUDPServer::BUFFER_LENGTH];
+			const int result = recv(readSockets.fd_array[0], buff, udp->m_maxBuffLen, 0);
 			if (result == SOCKET_ERROR || result == 0) // 받은 패킷사이즈가 0이면 서버와 접속이 끊겼다는 의미다.
 			{
 				// 에러가 발생하더라도, 수신 대기상태로 계속 둔다.
@@ -157,5 +166,6 @@ unsigned WINAPI UDPServerThreadFunction(void* arg)
 		//Sleep(udp->m_sleepMillis);
 	}
 
+	delete[] buff;
 	return 0;
 }

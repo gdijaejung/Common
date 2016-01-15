@@ -19,11 +19,10 @@ namespace network
 		cUDPClient();
 		virtual ~cUDPClient();
 
-		enum { BUFLEN = 512, };
-
 		bool Init(const string &ip, const int port, const int sleepMillis=30);
-		void SendData(const char *buff, const int buffLen);
-		int GetReceiveData(char *dst, const int maxbuffLen);
+		void SendData(const BYTE *buff, const int buffLen);
+		int GetReceiveData(BYTE *dst, const int maxbuffLen);
+		void SetMaxBufferLength(const int length);
 		void Close();
 		bool IsConnect() const;
 
@@ -34,9 +33,10 @@ namespace network
 		bool m_isConnect;
 		SOCKET m_socket;
 		sockaddr_in m_si_other;
-		char m_sndBuffer[BUFLEN];
+		BYTE *m_sndBuffer;
 		int m_sndBuffLen;
-		char m_rcvBuffer[BUFLEN];
+		int m_maxBuffLen;
+		BYTE *m_rcvBuffer;
 		int m_rcvBuffLen;
 		bool m_isReceiveData;
 		bool m_isSendData;

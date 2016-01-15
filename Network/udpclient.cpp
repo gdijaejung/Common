@@ -19,9 +19,13 @@ cUDPClient::cUDPClient() :
 	, m_isReceiveData(false)
 	, m_isSendData(false)
 	, m_sleepMillis(30)
+	, m_maxBuffLen(BUFFER_LENGTH)
 {
 	InitializeCriticalSectionAndSpinCount(&m_sndCriticalSection, 0x00000400);
 	InitializeCriticalSectionAndSpinCount(&m_rcvCriticalSection, 0x00000400);
+
+	m_sndBuffer = new BYTE[m_maxBuffLen];
+	m_rcvBuffer = new BYTE[m_maxBuffLen];
 }
 
 cUDPClient::~cUDPClient()
@@ -33,6 +37,9 @@ cUDPClient::~cUDPClient()
 	DeleteCriticalSection(&m_sndCriticalSection);
 	DeleteCriticalSection(&m_rcvCriticalSection);
 	closesocket(m_socket);
+
+	delete[] m_sndBuffer;
+	delete[] m_rcvBuffer;
 }
 
 
@@ -67,18 +74,18 @@ bool cUDPClient::Init(const string &ip, const int port, const int sleepMillis) /
 
 
 // 전송할 정보를 설정한다.
-void cUDPClient::SendData(const char *buff, const int buffLen)
+void cUDPClient::SendData(const BYTE *buff, const int buffLen)
 {
 	EnterCriticalSection(&m_sndCriticalSection);
-	memcpy(m_sndBuffer, buff, buffLen);
-	m_sndBuffLen = buffLen;
+	m_sndBuffLen = min(buffLen, m_maxBuffLen);
+	memcpy(m_sndBuffer, buff, m_sndBuffLen);
 	m_isSendData = true;
 	LeaveCriticalSection(&m_sndCriticalSection);
 }
 
 
 // 받은 정보를 가져온다.
-int cUDPClient::GetReceiveData(char *dst, const int maxbuffLen)
+int cUDPClient::GetReceiveData(BYTE *dst, const int maxbuffLen)
 {
 	EnterCriticalSection(&m_rcvCriticalSection);
 	if (maxbuffLen < m_rcvBuffLen)
@@ -101,6 +108,20 @@ int cUDPClient::GetReceiveData(char *dst, const int maxbuffLen)
 }
 
 
+void cUDPClient::SetMaxBufferLength(const int length)
+{
+	if (m_maxBuffLen != length)
+	{
+		delete[] m_sndBuffer;
+		delete[] m_rcvBuffer;
+
+		m_maxBuffLen = length;
+		m_sndBuffer = new BYTE[length];
+		m_rcvBuffer = new BYTE[length];
+	}
+}
+
+
 // 접속을 끊는다.
 void cUDPClient::Close()
 {
@@ -117,8 +138,10 @@ unsigned WINAPI UDPClientThreadFunction(void* arg)
 	cUDPClient *udp = (cUDPClient*)arg;
 
 	int recv_len;
-	char sndBuff[cUDPClient::BUFLEN];
-	memset(sndBuff, '\0', cUDPClient::BUFLEN);
+	char *sndBuff = new char[udp->m_maxBuffLen];
+	char *rcvBuff = new char[udp->m_maxBuffLen];
+	memset(sndBuff, '\0', udp->m_maxBuffLen);
+	memset(rcvBuff, '\0', udp->m_maxBuffLen);
 
 	while (udp->m_threadLoop)
 	{
@@ -162,8 +185,8 @@ unsigned WINAPI UDPClientThreadFunction(void* arg)
 		const int ret = select(readSockets.fd_count, &readSockets, NULL, NULL, &t);
 		if (ret != 0 && ret != SOCKET_ERROR)
 		{
-			char rcvBuff[cUDPClient::BUFLEN];
-			const int result = recv(readSockets.fd_array[0], rcvBuff, sizeof(rcvBuff), 0);
+			//char rcvBuff[cUDPClient::BUFFER_LENGTH];
+			const int result = recv(readSockets.fd_array[0], rcvBuff, udp->m_maxBuffLen, 0);
 			if (result == SOCKET_ERROR || result == 0) // 받은 패킷사이즈가 0이면 서버와 접속이 끊겼다는 의미다.
 			{
 // 				closesocket(udp->m_socket);
@@ -182,5 +205,7 @@ unsigned WINAPI UDPClientThreadFunction(void* arg)
 		Sleep(udp->m_sleepMillis);
 	}
 
+	delete[] sndBuff;
+	delete[] rcvBuff;
 	return 0;
 }

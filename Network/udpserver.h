@@ -20,24 +20,22 @@ namespace network
 		cUDPServer();
 		virtual ~cUDPServer();
 
-		enum { BUFLEN = 512, };
-
 		bool Init(const int id, const int port);
 		void SetRecvData(const char *buff, const int buffLen);
 		int GetRecvData(OUT char *dst, const int maxSize);
-		int SendData(const char *buff, const int buffLen);
+		void SetMaxBufferLength(const int length);
 		void Close(const bool isWait = false);
 		bool IsConnect() const;
 
 
-	//protected:
 		int m_id;
 		SOCKET m_socket;
 		int m_port;
 		bool m_isConnect;
-		char m_buffer[BUFLEN];
+		char *m_buffer;
 		int m_bufferLen;
 		bool m_isReceiveData; // 패킷을 받았다면 true가 된다. GetRecvData() 함수에서 초기화 된다.
+		int m_maxBuffLen;
 		int m_sleepMillis; // default = 10
 
 		HANDLE m_handle;
