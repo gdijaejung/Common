@@ -102,8 +102,8 @@ BOOL CSerial::WriteCommByte( unsigned char ucByte )
 		}
 
 	return( TRUE );
-}
 
+}
 
 int CSerial::SendData( const char *buffer, int size )
 {
@@ -113,7 +113,7 @@ int CSerial::SendData( const char *buffer, int size )
 	DWORD dwBytesWritten = 0;
 	int i;
 	for( i=0; i<size; i++ ){
-		WriteCommByte( buffer[i] );
+		BOOL result = WriteCommByte( buffer[i] );
 		dwBytesWritten++;
 		}
 
