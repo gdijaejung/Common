@@ -95,34 +95,37 @@ Matrix44 Quaternion::GetMatrix() const
 {
 	Matrix44 m;
 /*
-	float	xx = x * x;
-	float	yy = y * y;
-	float	zz = z * z;
-	float	ww = w * w;
-	float	xy = x * y;
-	float	yz = y * z;
-	float	zx = z * x;
-	float	wx = w * x;
-	float	wy = w * y;
-	float	wz = w * z;
+	float X = x;
+	float Y = y;
+	float Z = z;
+	float W = -w;
 
-	m._11 = 1.0F - 2.0F * ( yy + zz );
-	m._12 =        2.0F * ( xy - wz );
-	m._13 =        2.0F * ( zx + wy );
+	float xx = X * X;
+	float xy = X * Y;
+	float xz = X * Z;
+	float xw = X * W;
+	float yy = Y * Y;
+	float yz = Y * Z;
+	float yw = Y * W;
+	float zz = Z * Z;
+	float zw = Z * W;
 
-	m._21 =        2.0F * ( xy + wz );
-	m._22 = 1.0F - 2.0F * ( xx + zz );
-	m._23 =        2.0F * ( yz - wx );
+	m._11 = 1.0f - 2.0f * (yy + zz);
+	m._12 = 2.0f * (xy - zw);
+	m._13 = 2.0f * (xz + yw);
 
-	m._31 =        2.0F * ( zx - wy );
-	m._32 =        2.0F * ( yz + wx );
-	m._33 = 1.0F - 2.0F * ( xx + yy );
+	m._21 = 2.0f * (xy + zw);
+	m._22 = 1 - 2.0f * (xx + zz);
+	m._23 = 2.0f * (yz - xw);
 
-	m._14 = m._24 = m._34 = 0.0F;
-	m._41 = m._42 = m._43 = 0.0F;
-	m._44 = 1.0F;
-/**/
+	m._31 = 2.0f * (xz - yw);
+	m._32 = 2.0f * (yz + xw);
+	m._33 = 1.0f - 2.0f * (xx + yy);
 
+	m._14 = m._24 = m._34 = 0.0f;
+	m._41 = m._42 = m._43 = 0.0f;
+	m._44 = 1.0f;
+*/
 	D3DXMatrixRotationQuaternion( (D3DXMATRIX*)&m, (D3DXQUATERNION*)this );
 	return m;
 } //Quaternion::GetMatrix4
@@ -332,7 +335,7 @@ void Quaternion::Euler2(const Vector3& v)
 
 /** @brief Returns an equivalent euler angle representation of
 	* this quaternion.
-	* @return Euler angles in roll-yaw-pitch order.
+	* @return Euler angles in roll-pitch-yaw order.
 	* http://ai.stanford.edu/~acoates/quaternion.h
 	*/
 Vector3 Quaternion::Euler(void) const 
