@@ -86,6 +86,7 @@
     <ClInclude Include="common.h" />
     <ClInclude Include="container\vectorhelper.h" />
     <ClInclude Include="etc\autocs.h" />
+    <ClInclude Include="etc\BufferedSerial.h" />
     <ClInclude Include="etc\config.h" />
     <ClInclude Include="etc\dbg.h" />
     <ClInclude Include="etc\filepath.h" />
@@ -95,6 +96,8 @@
     <ClInclude Include="etc\observer2.h" />
     <ClInclude Include="etc\rand.h" />
     <ClInclude Include="etc\rect.h" />
+    <ClInclude Include="etc\Serial.h" />
+    <ClInclude Include="etc\SerialAsync.h" />
     <ClInclude Include="etc\singleton.h" />
     <ClInclude Include="etc\stringfunc.h" />
     <ClInclude Include="math\Math.h" />
@@ -111,6 +114,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="etc\BufferedSerial.cpp" />
     <ClCompile Include="etc\config.cpp" />
     <ClCompile Include="etc\dbg.cpp" />
     <ClCompile Include="etc\filepath.cpp" />
@@ -118,6 +122,8 @@
     <ClCompile Include="etc\observer.cpp" />
     <ClCompile Include="etc\observer2.cpp" />
     <ClCompile Include="etc\rect.cpp" />
+    <ClCompile Include="etc\Serial.cpp" />
+    <ClCompile Include="etc\SerialAsync.cpp" />
     <ClCompile Include="etc\stringfunc.cpp" />
     <ClCompile Include="math\matrix44.cpp" />
     <ClCompile Include="math\plane.cpp" />

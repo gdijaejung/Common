@@ -56,11 +56,14 @@ bool cSerialCommunication::ProcessSerialCommunicatoin(const float deltaSeconds)
 	}
 */
 
-	string buff;
-	if (m_serial.ReadStringUntil('\n', buff))
+	//string buff;
+	char buff[512];
+	int len;
+	if (m_serial.ReadStringUntil('\n', buff, len, sizeof(buff)))
 	{
 		// 시리얼통신으로 넘어온 정보를 옵져버에게 알린다.
-		if (!buff.empty())
+		//if (!buff.empty())
+		if (len > 0)
 			NotifyObserver((char*)&buff[0]);
 	}
 

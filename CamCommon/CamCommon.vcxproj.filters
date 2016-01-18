@@ -101,12 +101,6 @@
     <ClInclude Include="LEDBlinkCapture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Serial.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BufferedSerial.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="streamingviewer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -194,12 +188,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="LEDBlinkCapture.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Serial.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BufferedSerial.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="streamingviewer.cpp">

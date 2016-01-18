@@ -81,7 +81,6 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BufferedSerial.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="CameraDistortion.h" />
     <ClInclude Include="camcommon.h" />
@@ -99,7 +98,6 @@
     <ClInclude Include="roi.h" />
     <ClInclude Include="screen.h" />
     <ClInclude Include="searchpoint.h" />
-    <ClInclude Include="Serial.h" />
     <ClInclude Include="sharedmemcommunication.h" />
     <ClInclude Include="skewdetect.h" />
     <ClInclude Include="squarecontour.h" />
@@ -117,7 +115,6 @@
     <ClInclude Include="wndmsgcommunication.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BufferedSerial.cpp" />
     <ClCompile Include="camcommon.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="CameraDistortion.cpp" />
@@ -135,7 +132,6 @@
     <ClCompile Include="roi.cpp" />
     <ClCompile Include="screen.cpp" />
     <ClCompile Include="searchpoint.cpp" />
-    <ClCompile Include="Serial.cpp" />
     <ClCompile Include="sharedmemcommunication.cpp" />
     <ClCompile Include="skewdetect.cpp" />
     <ClCompile Include="squarecontour.cpp" />

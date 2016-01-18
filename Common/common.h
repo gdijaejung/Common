@@ -79,6 +79,9 @@ using std::wstringstream;
 #include "etc/rand.h"
 #include "etc/config.h"
 #include "etc/autocs.h"
+#include "etc/Serial.h"
+#include "etc/BufferedSerial.h"
+#include "etc/SerialAsync.h"
 
 #pragma comment( lib, "d3d9.lib" )
 //#pragma comment( lib, "d3dx9.lib" )

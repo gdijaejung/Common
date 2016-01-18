@@ -6,9 +6,9 @@ using std::pair;
 
 #include "DockablePaneBase.h"
 #include "DockablePaneChildView.h"
-#include "Serial.h"
-#include "BufferedSerial.h"
-#include "SerialAsync.h"
+//#include "Serial.h"
+//#include "BufferedSerial.h"
+//#include "SerialAsync.h"
 //#include "SerialCommunication.h"
 #include "Controller.h"
 #include "PlotWindow.h"

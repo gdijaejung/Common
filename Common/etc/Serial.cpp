@@ -3,6 +3,9 @@
 #include "stdafx.h"
 #include "Serial.h"
 
+using namespace common;
+
+
 CSerial::CSerial()
 {
 	memset( &m_OverlappedRead, 0, sizeof( OVERLAPPED ) );

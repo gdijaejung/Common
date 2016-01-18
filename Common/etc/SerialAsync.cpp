@@ -1,6 +1,9 @@
 
 #include "stdafx.h"
 #include "SerialAsync.h"
+#include <process.h>
+
+using namespace common;
 
 
 unsigned WINAPI SerialThreadFunction(void* arg);

@@ -2,7 +2,9 @@
 #include "stdafx.h"
 #include "BufferedSerial.h"
 #include <string>
+#include <mmsystem.h>
 using std::string;
+using namespace common;
 
 #pragma comment(lib, "winmm.lib")
 

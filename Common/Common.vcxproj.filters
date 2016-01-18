@@ -73,6 +73,15 @@
     <ClInclude Include="etc\autocs.h">
       <Filter>Etc</Filter>
     </ClInclude>
+    <ClInclude Include="etc\BufferedSerial.h">
+      <Filter>Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="etc\Serial.h">
+      <Filter>Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="etc\SerialAsync.h">
+      <Filter>Etc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -122,6 +131,15 @@
       <Filter>math</Filter>
     </ClCompile>
     <ClCompile Include="etc\config.cpp">
+      <Filter>Etc</Filter>
+    </ClCompile>
+    <ClCompile Include="etc\BufferedSerial.cpp">
+      <Filter>Etc</Filter>
+    </ClCompile>
+    <ClCompile Include="etc\Serial.cpp">
+      <Filter>Etc</Filter>
+    </ClCompile>
+    <ClCompile Include="etc\SerialAsync.cpp">
       <Filter>Etc</Filter>
     </ClCompile>
   </ItemGroup>
