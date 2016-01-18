@@ -43,6 +43,10 @@
     <OutDir>../../Lib/$(ProjectName)/$(Configuration)/</OutDir>
     <IntDir>../../Obj/$(ProjectName)/$(Configuration)/</IntDir>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>../../Lib/$(ProjectName)/$(Configuration)/</OutDir>
+    <IntDir>../../Obj/$(ProjectName)/$(Configuration)/</IntDir>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>

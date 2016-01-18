@@ -6,7 +6,7 @@
 #include "DockablePaneBase.h"
 #include "DockablePaneChildView.h"
 #include "controller.h"
-#include "SerialCommunication.h"
+//#include "SerialCommunication.h"
 
 
 // CDockablePaneBase

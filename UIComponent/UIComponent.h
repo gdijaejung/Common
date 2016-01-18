@@ -9,7 +9,7 @@ using std::pair;
 #include "Serial.h"
 #include "BufferedSerial.h"
 #include "SerialAsync.h"
-#include "SerialCommunication.h"
+//#include "SerialCommunication.h"
 #include "Controller.h"
 #include "PlotWindow.h"
 #include "MultiPlotWindow.h"
