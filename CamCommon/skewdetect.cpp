@@ -82,8 +82,8 @@ bool cSkewDetect::Detect(const Point pos, OUT Point2f &out)
 		// scaling
 		tPos = ((tPos - Point2f(0.5f, 0.5f)) * m_scale) + Point2f(0.5f, 0.5f);
 
-		tPos.x = clamp(tPos.x, 0, 1);
-		tPos.y = clamp(tPos.y, 0, 1);
+		tPos.x = clamp(0, 1, tPos.x);
+		tPos.y = clamp(0, 1, tPos.y);
 
 		out = tPos;
 		m_pos = tPos; // 가장 최근 정보 저장
@@ -123,8 +123,8 @@ bool cSkewDetect::DetectCalc(const Point pos, OUT Point2f &out)
 		// scaling
 		tPos = ((tPos - Point2f(0.5f, 0.5f)) * m_scale) + Point2f(0.5f, 0.5f);
 
-		tPos.x = clamp(tPos.x, 0, 1);
-		tPos.y = clamp(tPos.y, 0, 1);
+		tPos.x = clamp(0, 1, tPos.x);
+		tPos.y = clamp(0, 1, tPos.y);
 
 		out = tPos;
 		m_pos = tPos;

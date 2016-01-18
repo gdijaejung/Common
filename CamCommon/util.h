@@ -25,7 +25,6 @@ IplImage* BitmapToIplImage(Gdiplus::Bitmap *bitmap);
 
 
 
-float clamp(const float value, const float _min, const float _max);
 Point2f PointNormalize(const cv::Point &pos);
 
 cRectContour ContourNormalize(cLineContour contourLines[4]);

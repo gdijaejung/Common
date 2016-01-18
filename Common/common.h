@@ -1,6 +1,13 @@
 
 #pragma once
 
+
+#ifndef _CRT_SECURE_NO_WARNINGS
+	#define _CRT_SECURE_NO_WARNINGS
+#endif
+
+
+
 // 매크로 정의
 #ifndef SAFE_DELETE
 #define SAFE_DELETE(p) {if (p) { delete p; p=NULL;} }

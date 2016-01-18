@@ -274,16 +274,6 @@ void ShowBoxLines(Mat &dst, const int rows, const int cols, const bool isClear)
 }
 
 
-float clamp(const float value, const float _min, const float _max)
-{
-	float v = value;
-	if (v < _min)
-		v = _min;
-	if (v > _max)
-		v = _max;
-	return v;
-}
-
 Point2f PointNormalize(const cv::Point &pos)
 {
 	const float d = (float)cv::norm(pos);

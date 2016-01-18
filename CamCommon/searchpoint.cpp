@@ -216,8 +216,8 @@ void cSearchPoint::ConvertUV(const Point &pos, OUT float &outX, OUT float &outY)
 	x = (x - 0.5f) * m_skewDetect.m_scale + 0.5f;
 	y = (y - 0.5f) * m_skewDetect.m_scale + 0.5f;
 
-	x = clamp(x, 0, 1);
-	y = clamp(y, 0, 1);
+	x = clamp(0, 1, x);
+	y = clamp(0, 1, y);
 
 	outX = x;
 	outY = y;

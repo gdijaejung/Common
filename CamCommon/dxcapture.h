@@ -25,7 +25,7 @@ public:
 	void UpdateCurrentBuffer();
 	BYTE* GetCurrentBuffer(long &size);
 	BYTE* GetCloneBuffer(long &size);
-	IplImage* GetCloneBufferToImage();
+	IplImage* GetCloneBufferToImage(const bool cpyImage=true);
 	Gdiplus::Bitmap* GetCloneBufferToBitmap();
 	void WriteBitmapFromCurrentBuffer(const char* fileName);
 	HRESULT WriteBitmapFromBuffer(const char* fileName, const BYTE *buffer, const long bufferSize);

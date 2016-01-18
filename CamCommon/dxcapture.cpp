@@ -653,7 +653,7 @@ HRESULT cDxCapture::WriteBitmapFromBuffer(const char* fileName, const BYTE *buff
 
 
 // 현재 버퍼를 openCV 의 iplImage 로 변환해 리턴한다.
-IplImage* cDxCapture::GetCloneBufferToImage()
+IplImage* cDxCapture::GetCloneBufferToImage(const bool cpyImage)
 {
 	if (!m_iplImage)
 	{
@@ -667,7 +667,8 @@ IplImage* cDxCapture::GetCloneBufferToImage()
 	CopyMemory(m_iplImage->imageData, buffer, size);
 	cvFlip(m_iplImage);
 
-	CopyMemory(m_matImage.data, m_iplImage->imageData, m_matImage.elemSize()*m_matImage.total());
+	if (cpyImage)
+		CopyMemory(m_matImage.data, m_iplImage->imageData, m_matImage.elemSize()*m_matImage.total());
 
 	return m_iplImage;
 }
