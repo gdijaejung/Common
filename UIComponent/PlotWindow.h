@@ -29,10 +29,15 @@ public:
 	void SetMode(const plot::MODE &mode);
 	void DrawPlot(const float deltaSeconds, const bool autoSet = true);
 	void SetFixedWidthMode(const bool isFixedWidth);
-	
+	void Stop();
+	void Start();
 
-protected:
+
+//protected:
+public:
 	// Plot variable
+	bool m_isDrawPlot;
+
 	float m_xRange;
 	float m_yRange;
 	float m_xVisibleRange;

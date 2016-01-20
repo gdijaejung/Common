@@ -46,6 +46,14 @@ void CMultiPlotWindow::SetString(const char *str, const int plotIndex)
 
 	for each (auto &plot in m_plotWindows)
 	{
+		if (plot::CMD == plot.wnd->m_mode)
+		{
+			if (!strcmp(str, "@stop"))
+				plot.wnd->Stop();
+			else if (!strcmp(str, "@start"))
+				plot.wnd->Start();
+		}
+
 		float y;
 		const int ret = sscanf_s(str, plot.scanString.c_str(), &y);
 		if (ret >= 1)
@@ -61,6 +69,14 @@ void CMultiPlotWindow::SetString(const float t, const char *str, const int plotI
 
 	for each (auto &plot in m_plotWindows)
 	{
+		if (plot::CMD == plot.wnd->m_mode)
+		{
+			if (!strcmp(str, "@stop"))
+				plot.wnd->Stop();
+			else if (!strcmp(str, "@start"))
+				plot.wnd->Start();
+		}
+
 		float y;
 		const int ret = sscanf_s(str, plot.scanString.c_str(), &y);
 		if (ret >= 1)
@@ -143,7 +159,14 @@ bool CMultiPlotWindow::ParsePlotInfo(const int plotIndex, const wstring &str, SP
 
 	out.scanString = common::wstr2str(scanParameters);
 	out.name = common::wstr2str(nameParameters);
-	out.mode = (modeParameters == L"spline") ? plot::SPLINE : plot::NORMAL;
+
+	if (modeParameters == L"spline")
+		out.mode = plot::SPLINE;
+	else if (modeParameters == L"cmd")
+		out.mode = plot::CMD;
+	else
+		out.mode = plot::NORMAL;
+
 	out.lineWidth = _wtoi(lineWidthParameters.c_str());
 	out.timeLine = _wtoi(timeLineParameters.c_str());
 	out.vectorSize = _wtoi(vectorSizeParameters.c_str());

@@ -6,7 +6,7 @@
 namespace plot
 {
 
-	enum MODE { NORMAL, SPLINE, };
+	enum MODE { NORMAL, SPLINE, CMD,};
 
 	struct SPlotInfo
 	{
