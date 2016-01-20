@@ -93,6 +93,7 @@
     <ClInclude Include="linecontour.h" />
     <ClInclude Include="movie.h" />
     <ClInclude Include="pidcontrol.h" />
+    <ClInclude Include="qrcode.h" />
     <ClInclude Include="RecognitionConfig.h" />
     <ClInclude Include="rectcontour.h" />
     <ClInclude Include="roi.h" />
@@ -127,6 +128,7 @@
     <ClCompile Include="linecontour.cpp" />
     <ClCompile Include="movie.cpp" />
     <ClCompile Include="pidcontrol.cpp" />
+    <ClCompile Include="qrcode.cpp" />
     <ClCompile Include="RecognitionConfig.cpp" />
     <ClCompile Include="rectcontour.cpp" />
     <ClCompile Include="roi.cpp" />

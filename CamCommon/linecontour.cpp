@@ -89,10 +89,10 @@ void cLineContour::Normalize()
 
 
 // 박스 출력.
-void cLineContour::Draw(cv::Mat &dst, const cv::Scalar &color, const int thickness)
+void cLineContour::Draw(cv::Mat &dst, const cv::Scalar &color, const int thickness, const bool isLoop)
 // color = cv::Scalar(0, 0, 0), thickness = 1
 {
-	DrawLines(dst, m_contours, color, thickness, false);
+	DrawLines(dst, m_contours, color, thickness, isLoop);
 }
 
 

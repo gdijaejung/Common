@@ -22,7 +22,8 @@ public:
 		const float maxLineAngle, const float maxLineDot,
 		int &idx1, int &idx2, int &idx3);
 	void Normalize();
-	void Draw(cv::Mat &dst, const cv::Scalar &color = cv::Scalar(0, 0, 0), const int thickness = 1);
+	void Draw(cv::Mat &dst, const cv::Scalar &color = cv::Scalar(0, 0, 0), const int thickness = 1, 
+		const bool isLoop=false);
 
 	bool IsEmpty() const;
 	cv::Point Center() const;
