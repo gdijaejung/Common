@@ -1,6 +1,22 @@
 //
 // CPlotWindow 를 여러개 출력하는 윈도우 클래스.
 //
+// Plot Script
+//
+// plot%d = 0 0 0 0 
+// string%d = %f
+// name%d = name
+// mode%d = spline, normal, plot
+//					spline : 스플라인 곡선 출력
+//					normal : 일반 그래프 출력
+//					cmd : 명령어를 처리한다.
+//						- @stop : 그래프 출력 멈춤
+//
+// linewidth%d = 2
+// timeline%d = 1000 (milliseconds 단위) 화면에 출력할 x축 타임라인 시간 길이
+// vector%d  = 100		미리 메모리를 잡을 벡터 크기 (아주 큰 벡터크기가 필요할 때 쓰인다.)
+//
+//
 #pragma once
 
 #include "PlotGlobal.h"

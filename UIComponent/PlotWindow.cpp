@@ -21,6 +21,7 @@ CPlotWindow::CPlotWindow() :
 	, m_splineIncTime(0)
 	, m_oldTime(0)
 	, m_bmpSize(0,0)
+	, m_isDrawPlot(true)
 {
 	m_blackBrush.CreateSolidBrush(RGB(0, 0, 0));
 	m_gridPen1.CreatePen(0, 1, RGB(100, 100, 100));
@@ -261,7 +262,7 @@ void CPlotWindow::DrawPlot(const float deltaSeconds, const bool autoSet) //autoS
 	// 일정시간 이상 그래프가 업데이트가 되지 않았다면,
 	// 가장 최근 값으로, 그래프 값을 추가한다.
 	const float curT = timeGetTime() * 0.001f;
-	if (autoSet && (curT - m_updateTime) > elapseTime) // 30프레임주기로 그래프를 업데이트 한다.
+	if (autoSet && (curT - m_updateTime) > elapseTime) // 30프레임 주기로 그래프를 업데이트 한다.
 	{
 		// 가장 최근 값을 저장한다.
 		for (u_int i = 0; i < m_plots.size(); ++i)
@@ -350,6 +351,8 @@ void CPlotWindow::Dump(CDumpContext& dc) const
 // }
 bool CPlotWindow::SetPlot(const plot::SPlotInfo &info)
 {
+	m_isDrawPlot = true;
+
 	m_xRange = info.xRange;
 	m_yRange = info.yRange;
 	m_xVisibleRange = info.xVisibleRange;
@@ -478,6 +481,9 @@ void CPlotWindow::SetPlotY(const float y, const int plotIndex)
 // Ring형 배열 구조, 추가
 void CPlotWindow::SetPlotXY(const float x, const float y, const int plotIndex) //plotIndex=0
 {
+	if (!m_isDrawPlot)
+		return;
+
 	if ((int)m_plots.size() <= plotIndex)
 		return;
 
@@ -555,4 +561,17 @@ int CPlotWindow::GetDrawStartIndex(const u_int plotIndex, const int currentIndex
 
 	// 찾지 못했다면, 현재 인덱스를 리턴한다.
 	return currentIndex;
+}
+
+
+// 그래프 출력을 멈춘다.
+void CPlotWindow::Stop()
+{
+	m_isDrawPlot = false;
+}
+
+
+void CPlotWindow::Start()
+{
+	m_isDrawPlot = true;
 }
