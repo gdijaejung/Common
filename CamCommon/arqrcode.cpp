@@ -49,6 +49,7 @@ bool cArQRCode::Detect(const Mat &src)
 
 		Mat matSkew = m_skewDetect.Transform(src);
 		imshow("skew window", matSkew);
+		return true;
 	}
 
 	return false;

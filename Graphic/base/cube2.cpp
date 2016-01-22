@@ -165,7 +165,7 @@ void cCube2::SetCube(cRenderer &renderer, const cCube2 &cube)
 }
 
 
-void cCube2::Render(cRenderer &renderer,  Matrix44 &tm)
+void cCube2::Render(cRenderer &renderer, const Matrix44 &tm)
 {
 	//DWORD cullMode;
 	//DWORD fillMode;

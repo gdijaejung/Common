@@ -25,7 +25,7 @@ namespace graphic
 		cMaterial& GetMaterial();
 
 
-		void Render(cRenderer &renderer, Matrix44 &tm);
+		void Render(cRenderer &renderer, const Matrix44 &tm);
 
 
 	protected:
