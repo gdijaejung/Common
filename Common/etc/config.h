@@ -24,6 +24,7 @@ namespace common
 
 		bool GetBool(const string &key, const bool defaultValue=false);
 		float GetFloat(const string &key, const float defaultValue = 0);
+		double GetDouble(const string &key, const double defaultValue = 0);
 		int GetInt(const string &key, const int defaultValue = 0);
 
 

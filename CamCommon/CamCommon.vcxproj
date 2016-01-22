@@ -81,13 +81,16 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="arqrcode.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="CameraDistortion.h" />
     <ClInclude Include="camcommon.h" />
     <ClInclude Include="config.h" />
+    <ClInclude Include="detectrect.h" />
     <ClInclude Include="detectpoint.h" />
     <ClInclude Include="dxcapture.h" />
     <ClInclude Include="dxcaptureutil.h" />
+    <ClInclude Include="fps.h" />
     <ClInclude Include="LEDBlinkCapture.h" />
     <ClInclude Include="LEDCalibrater.h" />
     <ClInclude Include="linecontour.h" />
@@ -95,6 +98,7 @@
     <ClInclude Include="pidcontrol.h" />
     <ClInclude Include="qrcode.h" />
     <ClInclude Include="RecognitionConfig.h" />
+    <ClInclude Include="recognitionedgeconfig.h" />
     <ClInclude Include="rectcontour.h" />
     <ClInclude Include="roi.h" />
     <ClInclude Include="screen.h" />
@@ -116,10 +120,12 @@
     <ClInclude Include="wndmsgcommunication.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="arqrcode.cpp" />
     <ClCompile Include="camcommon.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="CameraDistortion.cpp" />
     <ClCompile Include="config.cpp" />
+    <ClCompile Include="detectrect.cpp" />
     <ClCompile Include="detectpoint.cpp" />
     <ClCompile Include="dxcapture.cpp" />
     <ClCompile Include="dxcaptureutil.cpp" />
@@ -130,6 +136,7 @@
     <ClCompile Include="pidcontrol.cpp" />
     <ClCompile Include="qrcode.cpp" />
     <ClCompile Include="RecognitionConfig.cpp" />
+    <ClCompile Include="recognitionedgeconfig.cpp" />
     <ClCompile Include="rectcontour.cpp" />
     <ClCompile Include="roi.cpp" />
     <ClCompile Include="screen.cpp" />

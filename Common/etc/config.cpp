@@ -132,6 +132,19 @@ float cConfig::GetFloat(const string &key, const float defaultValue)
 }
 
 
+double cConfig::GetDouble(const string &key, const double defaultValue)
+{
+	auto it = m_options.find(key);
+	if (m_options.end() == it)
+	{
+		cout << "not found id = " << key.c_str() << endl;
+		return defaultValue;
+	}
+
+	return atof(m_options[key].c_str());
+}
+
+
 int cConfig::GetInt(const string &key, const int defaultValue)
 {
 	auto it = m_options.find(key);

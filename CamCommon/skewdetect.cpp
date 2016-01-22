@@ -8,22 +8,26 @@
 
 using namespace std;
 
-cSkewDetect::cSkewDetect()
+cSkewDetect::cSkewDetect(const int rows, const int cols)
+	: m_rows(rows)
+	, m_cols(cols)
 {
 }
 
-cSkewDetect::cSkewDetect(const cRecognitionConfig &recogConfig)
-	: m_bkgnd(Size(640,480), CV_8UC(3))
-	, m_skewBkgnd(Size(640, 480), CV_8UC(3))
+cSkewDetect::cSkewDetect(const cRecognitionConfig &recogConfig, const int rows, const int cols)
+	: m_rows(rows)
+	, m_cols(cols)
+	, m_bkgnd(Size(cols, rows), CV_8UC(3))
+	, m_skewBkgnd(Size(cols, rows), CV_8UC(3))
 	, m_isInit(false)
 	, m_detectPoint(recogConfig, "SkewDetect Binary")
-	, m_pos(0,0)
+	, m_pos(0, 0)
 	, m_scale(2.3f)
 {
 	m_detectPoint.m_params.filterByConvexity = false;
 	m_detectPoint.m_params.filterByCircularity = false;
- 	m_detectPoint.m_params.minArea = 1;
- 	m_detectPoint.m_params.maxArea = 300;
+	m_detectPoint.m_params.minArea = 1;
+	m_detectPoint.m_params.maxArea = 300;
 	m_detectPoint.m_params.minConvexity = 0.03f;
 	m_detectPoint.m_params.minInertiaRatio = 0.001f;
 }
@@ -42,9 +46,14 @@ bool cSkewDetect::Init(const cRectContour &contour, const float scale, const int
 	m_contour.InitSquare();
 	m_scale = scale;
 
-	m_skewBkgnd = Mat(Size(width, height), CV_8UC(3));
-	m_bkgnd.setTo(Scalar(255, 255, 255));
-	m_skewBkgnd.setTo(Scalar(255, 255, 255));
+	if ((m_skewBkgnd.cols != width) || (m_skewBkgnd.rows != height))
+	{
+		m_rows = height;
+		m_cols = width;
+		m_skewBkgnd = Mat(Size(width, height), CV_8UC(3));
+		m_bkgnd.setTo(Scalar(255, 255, 255));
+		m_skewBkgnd.setTo(Scalar(255, 255, 255));
+	}
 
 	m_transmtx = SkewTransform(m_contour.m_contours, width, height, 1);
 	return true;
@@ -75,9 +84,9 @@ bool cSkewDetect::Detect(const Point pos, OUT Point2f &out)
 	if (m_detectPoint.DetectPoint(m_skewBkgnd, tmpPt, false))
 	{
 		Point2f tPos = tmpPt;
-		tPos.y = 480 - tPos.y;
-		tPos.x /= 640;
-		tPos.y /= 480;
+		tPos.y = m_skewBkgnd.rows - tPos.y;
+		tPos.x /= m_skewBkgnd.cols;
+		tPos.y /= m_skewBkgnd.rows;
 
 		// scaling
 		tPos = ((tPos - Point2f(0.5f, 0.5f)) * m_scale) + Point2f(0.5f, 0.5f);
@@ -140,7 +149,7 @@ bool cSkewDetect::DetectCalc(const Point pos, OUT Point2f &out)
 
 // contour 파일을 읽는다.
 // 파일에서 skewdetect 정보를 읽어드린다.
-bool cSkewDetect::Read(const string &fileName, const bool createContourSize)
+bool cSkewDetect::Read(const string &contourFileName, const bool createContourSize)
 {
 	cout << "read SkewDetect file... ";
 
@@ -150,7 +159,7 @@ bool cSkewDetect::Read(const string &fileName, const bool createContourSize)
 		using boost::property_tree::ptree;
 		using std::string;
 		ptree props;
-		boost::property_tree::read_json(fileName, props);
+		boost::property_tree::read_json(contourFileName, props);
 
 		if (props.get<string>("format", "") != "camera contour")
 		{
@@ -174,8 +183,8 @@ bool cSkewDetect::Read(const string &fileName, const bool createContourSize)
 
 		contour.Init(pos);
 
-		int width = 640;
-		int height = 480;
+		int width = m_skewBkgnd.empty() ? m_cols : m_skewBkgnd.cols;
+		int height = m_skewBkgnd.empty() ? m_rows : m_skewBkgnd.rows;
 		if (createContourSize)
 		{
 			width = contour.Width();
@@ -196,11 +205,11 @@ bool cSkewDetect::Read(const string &fileName, const bool createContourSize)
 
 
 // 파일에 skewdetect 정보를 쓴다.
-bool cSkewDetect::Write(const string &fileName)
+bool cSkewDetect::Write(const string &contourFileName)
 {
 	cout << "write SkewDetect file... ";
 
-	if (fileName.empty())
+	if (contourFileName.empty())
 		return false;
 
 	try
@@ -222,7 +231,7 @@ bool cSkewDetect::Write(const string &fileName)
 		props.add<int>("pos4x", m_contour.m_contours[3].x);
 		props.add<int>("pos4y", m_contour.m_contours[3].y);
 
-		boost::property_tree::write_json(fileName, props);
+		boost::property_tree::write_json(contourFileName, props);
 	}
 	catch (std::exception&e)
 	{
