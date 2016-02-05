@@ -22,7 +22,8 @@ cQuad::~cQuad()
 // pos : Äõµå À§Ä¡
 bool cQuad::Create(cRenderer &renderer, const float width, const float height,
 	const Vector3 &pos, 
-	const string &textureFileName // = " "
+	const string &textureFileName, // = " "
+	const bool isSizePow2 // = true
 	)
 {
 	if (m_vtxBuff.GetVertexCount() <= 0)
@@ -55,7 +56,7 @@ bool cQuad::Create(cRenderer &renderer, const float width, const float height,
 	m_vtxBuff.Unlock();
 
 	if (!textureFileName.empty())
-		m_texture = cResourceManager::Get()->LoadTexture(renderer, textureFileName);
+		m_texture = cResourceManager::Get()->LoadTexture(renderer, textureFileName, isSizePow2);
 
 	m_tm.SetTranslate(pos);
 
