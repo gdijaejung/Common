@@ -51,7 +51,7 @@ bool cStreamingSender::Init(const bool isUDP, const string &ip, const int port,
 		m_compBuffer.reserve(307200);
 
 	if (!m_sndBuffer)
-		m_sndBuffer = new char[g_maxStreamSize];
+		m_sndBuffer = new BYTE[g_maxStreamSize];
 
 	return true;
 }

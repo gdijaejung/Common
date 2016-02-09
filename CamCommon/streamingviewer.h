@@ -25,7 +25,7 @@ namespace cvproc
 		bool m_isUDP;
 		cv::Mat m_src;
 		cv::Mat m_finalImage;		// 최종 이미지
-		char *m_rcvBuffer;
+		BYTE *m_rcvBuffer;
 	};
 
 }

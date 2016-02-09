@@ -19,22 +19,22 @@ cStreamingReceiver::~cStreamingReceiver()
 }
 
 
-bool cStreamingReceiver::Init(const bool isUDP, const int bindPort)
+bool cStreamingReceiver::Init(const bool isUDP, const string &ip, const int bindPort)
 {
 	m_isUDP = isUDP;
 
-	m_udpServer.Close();
-	m_tcpServer.Close();
+	m_udpClient.Close();
+	m_tcpClient.Close();
 	
 	if (isUDP)
 	{
-		m_udpServer.SetMaxBufferLength(307200);
-		if (!m_udpServer.Init(0, bindPort))
+		m_udpClient.SetMaxBufferLength(307200);
+		if (!m_udpClient.Init(0, bindPort))
 			return false;
 	}
 	else
 	{
-		if (!m_tcpServer.Init(bindPort, g_maxStreamSize, 10, 10))
+		if (!m_tcpClient.Init(ip, bindPort, g_maxStreamSize, 10, 10))
 			return false;
 	}
 
@@ -44,7 +44,7 @@ bool cStreamingReceiver::Init(const bool isUDP, const int bindPort)
 		m_finalImage = Mat(480, 640, CV_8UC1);
 
 	if (!m_rcvBuffer)
-		m_rcvBuffer = new char[g_maxStreamSize];
+		m_rcvBuffer = new BYTE[g_maxStreamSize];
 
 	return true;
 }
@@ -59,16 +59,16 @@ cv::Mat& cStreamingReceiver::Update()
 	int len = 0;
 	if (m_isUDP)
 	{
-		len = m_udpServer.GetRecvData(m_rcvBuffer, g_maxStreamSize);
+		len = m_udpClient.GetReceiveData(m_rcvBuffer, g_maxStreamSize);
 	}
 	else
 	{
 		network::sPacket packet;
-		if (m_tcpServer.m_recvQueue.Front(packet))
+		if (m_tcpClient.m_recvQueue.Front(packet))
 		{
 			len = packet.actualLen;
 			memcpy(m_rcvBuffer, packet.buffer, packet.actualLen);
-			m_tcpServer.m_recvQueue.Pop();
+			m_tcpClient.m_recvQueue.Pop();
 		}
 	}
 
@@ -140,13 +140,13 @@ cv::Mat& cStreamingReceiver::Update()
 bool cStreamingReceiver::IsConnect()
 {
 	if (m_isUDP)
-		return m_udpServer.IsConnect();
-	return m_tcpServer.IsConnect();
+		return m_udpClient.IsConnect();
+	return m_tcpClient.IsConnect();
 }
 
 
 void cStreamingReceiver::Close()
 {
-	m_udpServer.Close();
-	m_tcpServer.Close();
+	m_udpClient.Close();
+	m_tcpClient.Close();
 }

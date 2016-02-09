@@ -19,17 +19,17 @@ namespace cvproc
 		cStreamingReceiver();
 		virtual ~cStreamingReceiver();
 
-		bool Init(const bool isUDP, const int bindPort);
+		bool Init(const bool isUDP, const string &ip, const int bindPort);
 		cv::Mat& Update();
 		bool IsConnect();
 		void Close();
 
 
-		network::cUDPServer m_udpServer;
-		network::cTCPServer m_tcpServer;
+		network::cUDPClient m_udpClient;
+		network::cTCPClient m_tcpClient;
 		bool m_isUDP;
 		cv::Mat m_src;
 		cv::Mat m_finalImage;		// 최종 이미지
-		char *m_rcvBuffer;
+		BYTE *m_rcvBuffer;
 	};
 }

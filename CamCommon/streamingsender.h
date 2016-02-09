@@ -44,7 +44,7 @@ namespace cvproc
 		int m_jpgCompressQuality;
 		cv::vector<uchar> m_compBuffer;
 		cv::Mat m_gray;
-		char *m_sndBuffer;
+		BYTE *m_sndBuffer;
 
 
 	protected:

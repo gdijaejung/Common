@@ -14,7 +14,7 @@ namespace cvproc
 		unsigned char isGray;		// gray 0 : 1
 		unsigned char isCompressed;	// jpeg compressed 0 : 1
 		int imageBytes;				// image size (byte unit)
-		char *data;					// image data
+		BYTE *data;					// image data
 	};
 
 

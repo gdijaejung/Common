@@ -29,7 +29,7 @@ bool cStreamingViewer::Init(const bool isUDP, const string &serverIp, const int 
 		m_finalImage = Mat(480, 640, CV_8UC1);
 
 	if (!m_rcvBuffer)
-		m_rcvBuffer = new char[g_maxStreamSize];
+		m_rcvBuffer = new BYTE[g_maxStreamSize];
 
 	return true;
 }
