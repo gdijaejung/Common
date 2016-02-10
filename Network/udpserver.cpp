@@ -18,7 +18,7 @@ cUDPServer::cUDPServer()
 	, m_sleepMillis(1)
 {
 	InitializeCriticalSectionAndSpinCount(&m_CriticalSection, 0x00000400);
-	m_buffer = new char[m_maxBuffLen];
+	m_buffer = new BYTE[m_maxBuffLen];
 }
 
 cUDPServer::~cUDPServer()
@@ -65,7 +65,7 @@ bool cUDPServer::Init(const int id, const int port)
 }
 
 
-void cUDPServer::SetRecvData(const char *buff, const int buffLen)
+void cUDPServer::SetRecvData(const BYTE *buff, const int buffLen)
 {
 	EnterCriticalSection(&m_CriticalSection);
 	memcpy(m_buffer, buff, buffLen);
@@ -77,7 +77,7 @@ void cUDPServer::SetRecvData(const char *buff, const int buffLen)
 
 // 받은 패킷을 dst에 저장해서 리턴한다.
 // 동기화 처리.
-int cUDPServer::GetRecvData(OUT char *dst, const int maxSize)
+int cUDPServer::GetRecvData(OUT BYTE *dst, const int maxSize)
 {
 	EnterCriticalSection(&m_CriticalSection);
 	int buffLen = 0;
@@ -121,7 +121,7 @@ void cUDPServer::SetMaxBufferLength(const int length)
 		delete[] m_buffer;
 
 		m_maxBuffLen = length;
-		m_buffer = new char[length];
+		m_buffer = new BYTE[length];
 	}
 }
 
@@ -139,7 +139,7 @@ unsigned WINAPI UDPServerThreadFunction(void* arg)
 {
 	cUDPServer *udp = (cUDPServer*)arg;
 
-	char *buff = new char[udp->m_maxBuffLen];
+	BYTE *buff = new BYTE[udp->m_maxBuffLen];
 
 	while (udp->m_threadLoop)
 	{
@@ -152,7 +152,7 @@ unsigned WINAPI UDPServerThreadFunction(void* arg)
 		if (ret != 0 && ret != SOCKET_ERROR)
 		{
 			//char buff[cUDPServer::BUFFER_LENGTH];
-			const int result = recv(readSockets.fd_array[0], buff, udp->m_maxBuffLen, 0);
+			const int result = recv(readSockets.fd_array[0], (char*)buff, udp->m_maxBuffLen, 0);
 			if (result == SOCKET_ERROR || result == 0) // 받은 패킷사이즈가 0이면 서버와 접속이 끊겼다는 의미다.
 			{
 				// 에러가 발생하더라도, 수신 대기상태로 계속 둔다.

@@ -21,8 +21,8 @@ namespace network
 		virtual ~cUDPServer();
 
 		bool Init(const int id, const int port);
-		void SetRecvData(const char *buff, const int buffLen);
-		int GetRecvData(OUT char *dst, const int maxSize);
+		void SetRecvData(const BYTE *buff, const int buffLen);
+		int GetRecvData(OUT BYTE *dst, const int maxSize);
 		void SetMaxBufferLength(const int length);
 		void Close(const bool isWait = false);
 		bool IsConnect() const;
@@ -32,7 +32,7 @@ namespace network
 		SOCKET m_socket;
 		int m_port;
 		bool m_isConnect;
-		char *m_buffer;
+		BYTE *m_buffer;
 		int m_bufferLen;
 		bool m_isReceiveData; // 패킷을 받았다면 true가 된다. GetRecvData() 함수에서 초기화 된다.
 		int m_maxBuffLen;

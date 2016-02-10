@@ -13,7 +13,7 @@ using std::string;
 
 namespace network {
 	enum {
-		BUFFER_LENGTH = 512,
+		BUFFER_LENGTH = 1024,
 	};
 
 // 	struct sFD_Set : fd_set {

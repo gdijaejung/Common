@@ -82,6 +82,9 @@
     <ClInclude Include="etc\SerialAsync.h">
       <Filter>Etc</Filter>
     </ClInclude>
+    <ClInclude Include="etc\ip.h">
+      <Filter>Etc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -140,6 +143,9 @@
       <Filter>Etc</Filter>
     </ClCompile>
     <ClCompile Include="etc\SerialAsync.cpp">
+      <Filter>Etc</Filter>
+    </ClCompile>
+    <ClCompile Include="etc\ip.cpp">
       <Filter>Etc</Filter>
     </ClCompile>
   </ItemGroup>

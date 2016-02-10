@@ -9,34 +9,47 @@ using namespace cvproc;
 cStreamingReceiver::cStreamingReceiver() 
 	: m_rcvBuffer(NULL)
 {
-
 }
 
 cStreamingReceiver::~cStreamingReceiver()
 {
 	SAFE_DELETEA(m_rcvBuffer);
-
 }
 
 
-bool cStreamingReceiver::Init(const bool isUDP, const string &ip, const int bindPort)
+bool cStreamingReceiver::Init(const bool isUDP, const string &ip, const int port, const int networkCardIdx)
 {
 	m_isUDP = isUDP;
 
-	m_udpClient.Close();
+	m_udpServer.Close();
 	m_tcpClient.Close();
 	
+	// 우선 TCP/IP로 접속한 후, udp/tcp 전송을 결정 한다.
+	if (!m_tcpClient.Init(ip, port, g_maxStreamSize, 10, 10))
+		return false;
+
+	// UDP로 전송 받기위해, 현재 컴퓨터의 IP와 포트번호를 전송한다.
+	// 포트번호는 tcp/ip포트의 +1 한 값이다.
 	if (isUDP)
 	{
-		m_udpClient.SetMaxBufferLength(307200);
-		if (!m_udpClient.Init(0, bindPort))
-			return false;
+		const string rcvIp = common::GetHostIP(networkCardIdx);
+		std::cout << "UDP Receive IP = " << rcvIp << std::endl;
+
+		sStreamingProtocol data;
+		data.protocol = 100;
+		data.type = 1;
+		data.port = port + 1;
+		data.uip = inet_addr(rcvIp.c_str());
+		m_tcpClient.Send((BYTE*)&data, sizeof(data));
+
+		m_udpServer.SetMaxBufferLength(307200);
+		if (!m_udpServer.Init(0, port + 1))
+		{
+			// udp로 수신되는 것이 실패했다면, tcp/ip로 받는다.
+			m_isUDP = false;
+		}
 	}
-	else
-	{
-		if (!m_tcpClient.Init(ip, bindPort, g_maxStreamSize, 10, 10))
-			return false;
-	}
+
 
 	if (m_src.empty())
 		m_src = Mat(480, 640, CV_8UC1);
@@ -59,7 +72,7 @@ cv::Mat& cStreamingReceiver::Update()
 	int len = 0;
 	if (m_isUDP)
 	{
-		len = m_udpClient.GetReceiveData(m_rcvBuffer, g_maxStreamSize);
+		len = m_udpServer.GetRecvData(m_rcvBuffer, g_maxStreamSize);
 	}
 	else
 	{
@@ -140,13 +153,13 @@ cv::Mat& cStreamingReceiver::Update()
 bool cStreamingReceiver::IsConnect()
 {
 	if (m_isUDP)
-		return m_udpClient.IsConnect();
+		return m_udpServer.IsConnect();
 	return m_tcpClient.IsConnect();
 }
 
 
 void cStreamingReceiver::Close()
 {
-	m_udpClient.Close();
+	m_udpServer.Close();
 	m_tcpClient.Close();
 }

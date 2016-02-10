@@ -91,6 +91,7 @@
     <ClInclude Include="etc\dbg.h" />
     <ClInclude Include="etc\filepath.h" />
     <ClInclude Include="etc\genid.h" />
+    <ClInclude Include="etc\ip.h" />
     <ClInclude Include="etc\memorypool.h" />
     <ClInclude Include="etc\observer.h" />
     <ClInclude Include="etc\observer2.h" />
@@ -119,6 +120,7 @@
     <ClCompile Include="etc\dbg.cpp" />
     <ClCompile Include="etc\filepath.cpp" />
     <ClCompile Include="etc\genid.cpp" />
+    <ClCompile Include="etc\ip.cpp" />
     <ClCompile Include="etc\observer.cpp" />
     <ClCompile Include="etc\observer2.cpp" />
     <ClCompile Include="etc\rect.cpp" />

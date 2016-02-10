@@ -19,13 +19,13 @@ namespace cvproc
 		cStreamingReceiver();
 		virtual ~cStreamingReceiver();
 
-		bool Init(const bool isUDP, const string &ip, const int bindPort);
+		bool Init(const bool isUDP, const string &ip, const int port, const int networkCardIdx=0);
 		cv::Mat& Update();
 		bool IsConnect();
 		void Close();
 
 
-		network::cUDPClient m_udpClient;
+		network::cUDPServer m_udpServer;
 		network::cTCPClient m_tcpClient;
 		bool m_isUDP;
 		cv::Mat m_src;

@@ -43,13 +43,13 @@ void cController::Update(const float deltaSeconds)
 
 	//m_serialComm->ProcessSerialCommunicatoin(deltaSeconds);	
 
-	char buffer[512];
+	BYTE buffer[1024];
 	const int bufferLen = m_udpServer.GetRecvData(buffer, sizeof(buffer));
 	if (bufferLen > 0)
 	{
 		if (bufferLen < sizeof(buffer) / sizeof(char))
 			buffer[bufferLen] = NULL;
-		NotifyUDPObserver(buffer, bufferLen);
+		NotifyUDPObserver((char*)buffer, bufferLen);
 	}
 
 	NotifyUpdateObserver(deltaSeconds);

@@ -82,6 +82,7 @@ using std::wstringstream;
 #include "etc/Serial.h"
 #include "etc/BufferedSerial.h"
 #include "etc/SerialAsync.h"
+#include "etc/ip.h"
 
 #pragma comment( lib, "d3d9.lib" )
 //#pragma comment( lib, "d3dx9.lib" )
