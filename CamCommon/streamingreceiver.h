@@ -19,7 +19,8 @@ namespace cvproc
 		cStreamingReceiver();
 		virtual ~cStreamingReceiver();
 
-		bool Init(const bool isUDP, const string &ip, const int port, const int networkCardIdx=0);
+		bool Init(const bool isUDP, const string &ip, const int port, const int networkCardIdx=0,
+			const int gray = 1, const int compressed = 1, const int jpgComQuality = 40);
 		cv::Mat& Update();
 		bool IsConnect();
 		void Close();

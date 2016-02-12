@@ -18,16 +18,25 @@ namespace cvproc
 	};
 
 
-	// 리시버와 센더간에 통신을 수립하기 위해 쓰이는 프로토콜
+	// 리시버와 센더간에 정보 통신 프로토콜
+	// TCP/IP 로만 전송된다.
 	struct sStreamingProtocol
 	{
 		BYTE protocol;		// 프로토콜 타입
-		// 현재 프로토콜은 하나밖에 없으며, Receiver의 IP와 포트를
-		// 알려주기 위한 용도로 쓰인다. protocol = 100
+		// protocol = 100, 전송 프로토콜 설정 (TCP/IP) 
+		// Receiver의 IP와 Port, 전송 타입 송신
+		// 
+		// protocol = 101, gray, compressed, compressed quality 설정
+		// gray, compressed, compQuality 값 사용.
+		//
+
+
 		BYTE type;			// udp=1, tcp=0
-		BYTE ip1, ip2, ip3, ip4;	// ip1.ip2.ip3.ip4 = ipv4
 		unsigned int uip;
 		int port;
+		bool gray;
+		bool compressed;
+		int compQuality;
 	};
 
 

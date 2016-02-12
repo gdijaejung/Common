@@ -17,13 +17,25 @@ cStreamingReceiver::~cStreamingReceiver()
 }
 
 
-bool cStreamingReceiver::Init(const bool isUDP, const string &ip, const int port, const int networkCardIdx)
+bool cStreamingReceiver::Init(const bool isUDP, const string &ip, const int port, const int networkCardIdx,
+	const int gray, const int compressed, const int jpgComQuality)
 {
 	m_isUDP = isUDP;
 
 	m_udpServer.Close();
 	m_tcpClient.Close();
 	
+// 	if (isUDP)
+// 	{
+// 		m_udpServer.SetMaxBufferLength(307200);
+// 		m_udpServer.Init(0, port);
+// 	}
+// 	else
+// 	{
+// 		if (!m_tcpClient.Init(ip, port, g_maxStreamSize, 10, 10))
+// 			return false;
+// 	}
+
 	// 우선 TCP/IP로 접속한 후, udp/tcp 전송을 결정 한다.
 	if (!m_tcpClient.Init(ip, port, g_maxStreamSize, 10, 10))
 		return false;
@@ -48,6 +60,17 @@ bool cStreamingReceiver::Init(const bool isUDP, const string &ip, const int port
 			// udp로 수신되는 것이 실패했다면, tcp/ip로 받는다.
 			m_isUDP = false;
 		}
+	}
+
+	{
+		// gray, compressed, jpgCompQuality 설정 프로토콜
+		Sleep(500);
+		sStreamingProtocol data;
+		data.protocol = 101;
+		data.gray = gray==1? true : false;
+		data.compressed = compressed==1? true : false;
+		data.compQuality = jpgComQuality;
+		m_tcpClient.Send((BYTE*)&data, sizeof(data));
 	}
 
 
