@@ -12,6 +12,11 @@
 //	- (byte) compressed 0 : 1
 //	- (int) image size
 //
+// 2016-02-09
+//		- linux 작업
+//		- 처음 접속은 tcp/ip로 이뤄진다. 이 후, udp로 통신할지의 여부는 
+//		sStreamingProtocol 패킷을 클라이언트가 전송하면서 결정한다.
+//
 #pragma once
 
 #include "streaming.h"
@@ -24,10 +29,12 @@ namespace cvproc
 		cStreamingSender();
 		virtual ~cStreamingSender();
 
-		bool Init(const bool isUDP, const string &ip, const int port, 
+		bool Init(const int port, 
 			const bool isConvertGray=true, const bool isCompressed=true, const int jpgQuality=40);
+		void CheckPacket();
 		int Send(const cv::Mat &image);
 		bool IsConnect(const bool isUdp);
+		bool IsExistClient();
 		void Close();
 
 
@@ -37,11 +44,19 @@ namespace cvproc
 
 
 	public:
-		network::cUDPClient m_udpClient;
-		network::cTCPClient m_tcpClient;
+		network::cTCPServer m_tcpServer;
+
+		enum { MAX_UDP_COUNT = 2 };
+		map<SOCKET, int> m_users; // socket = udp index matching, default = -1
+		network::cUDPClient m_udpClient[MAX_UDP_COUNT]; // 최대 갯수가 제한 됨
+		bool m_udpUsed[MAX_UDP_COUNT];							// m_udpClient[] 가 사용되는 중이면,  true로 설정.
+
 		bool m_isConvertGray;
 		bool m_isCompressed;
 		int m_jpgCompressQuality;
+		int m_fps;
+		int m_deltaTime;
+		int m_lastSendTime;
 		cv::vector<uchar> m_compBuffer;
 		cv::Mat m_gray;
 		BYTE *m_sndBuffer;

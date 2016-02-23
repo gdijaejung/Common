@@ -18,24 +18,13 @@ cStreamingReceiver::~cStreamingReceiver()
 
 
 bool cStreamingReceiver::Init(const bool isUDP, const string &ip, const int port, const int networkCardIdx,
-	const int gray, const int compressed, const int jpgComQuality)
+	const int gray, const int compressed, const int jpgComQuality, const int fps)
 {
 	m_isUDP = isUDP;
 
 	m_udpServer.Close();
 	m_tcpClient.Close();
 	
-// 	if (isUDP)
-// 	{
-// 		m_udpServer.SetMaxBufferLength(307200);
-// 		m_udpServer.Init(0, port);
-// 	}
-// 	else
-// 	{
-// 		if (!m_tcpClient.Init(ip, port, g_maxStreamSize, 10, 10))
-// 			return false;
-// 	}
-
 	// 우선 TCP/IP로 접속한 후, udp/tcp 전송을 결정 한다.
 	if (!m_tcpClient.Init(ip, port, g_maxStreamSize, 10, 10))
 		return false;
@@ -54,7 +43,7 @@ bool cStreamingReceiver::Init(const bool isUDP, const string &ip, const int port
 		data.uip = inet_addr(rcvIp.c_str());
 		m_tcpClient.Send((BYTE*)&data, sizeof(data));
 
-		m_udpServer.SetMaxBufferLength(307200);
+		m_udpServer.SetMaxBufferLength(g_maxStreamSize);
 		if (!m_udpServer.Init(0, port + 1))
 		{
 			// udp로 수신되는 것이 실패했다면, tcp/ip로 받는다.
@@ -70,14 +59,9 @@ bool cStreamingReceiver::Init(const bool isUDP, const string &ip, const int port
 		data.gray = gray==1? true : false;
 		data.compressed = compressed==1? true : false;
 		data.compQuality = jpgComQuality;
+		data.fps = fps;
 		m_tcpClient.Send((BYTE*)&data, sizeof(data));
 	}
-
-
-	if (m_src.empty())
-		m_src = Mat(480, 640, CV_8UC1);
-	if (m_finalImage.empty())
-		m_finalImage = Mat(480, 640, CV_8UC1);
 
 	if (!m_rcvBuffer)
 		m_rcvBuffer = new BYTE[g_maxStreamSize];
@@ -90,7 +74,7 @@ cv::Mat& cStreamingReceiver::Update()
 {
 	RETV(!IsConnect(), m_finalImage);
 
-	const static int sizePerChunk = g_maxStreamSize - sizeof(sStreamingData); // size per chunk
+	const static int sizePerChunk = g_maxStreamSize - sizeof(sStreamingData) - sizeof(network::cPacketQueue::sHeader); // size per chunk
 
 	int len = 0;
 	if (m_isUDP)
@@ -123,8 +107,18 @@ cv::Mat& cStreamingReceiver::Update()
 	{
 		oldGray = (int)packet->isGray;
 		std::cout << "gray = " << (int)packet->isGray << std::endl;
-	}
 
+		if (packet->isGray)
+		{
+			m_src = Mat(480, 640, CV_8UC1);
+			m_finalImage = Mat(480, 640, CV_8UC1);
+		}
+		else
+		{
+			m_src = Mat(480, 640, CV_8UC3);
+			m_finalImage = Mat(480, 640, CV_8UC3);
+		}
+	}
 
 	if (packet->chunkSize == 1)
 	{
@@ -146,27 +140,35 @@ cv::Mat& cStreamingReceiver::Update()
 	}
 	else if (packet->chunkSize > 1)
 	{
-		static unsigned char oldId = 0;
+		static unsigned char oldId = -1;
 
 		if (oldId != packet->id)
 		{
 			if (packet->isCompressed)
 			{
-				cv::imdecode(m_src, 1, &m_finalImage);
+				if (!m_compBuffer.empty())
+					cv::imdecode(m_compBuffer, 1, &m_finalImage);
 			}
 			else
 			{
-				// 바로 decode 에 복사해서 리턴한다.
-				memcpy((char*)m_finalImage.data, (char*)m_src.data, m_src.total() * m_src.elemSize());
+				// 바로 final image 에 복사해서 리턴한다.
+				if (!m_compBuffer.empty())
+					memcpy((char*)m_finalImage.data, (char*)&m_compBuffer[0], m_src.total() * m_src.elemSize());
 			}
+
+			m_compBuffer.resize(packet->imageBytes);
+			ZeroMemory(m_checkRcv, sizeof(m_checkRcv));
 
 			oldId = packet->id;
 		}
 
 		packet->data = m_rcvBuffer + sizeof(sStreamingData);
-		char *dst = (char*)m_src.data + packet->chunkIndex * sizePerChunk;
+		char *dst = (char*)&m_compBuffer[0] + packet->chunkIndex * sizePerChunk;
 		const int copyLen = max(0, (len - (int)sizeof(sStreamingData)));
 		memcpy(dst, packet->data, copyLen);
+
+		if (packet->chunkIndex < 32)
+			m_checkRcv[packet->chunkIndex] = true;
 	}
 
 	return m_finalImage;

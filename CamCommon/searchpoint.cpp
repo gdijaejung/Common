@@ -85,15 +85,15 @@ bool cSearchPoint::RecognitionSearch(const Mat &src, OUT Point &rawPos, const bo
 	// Roi
 	const Mat *psrc = (isRoi) ? &m_roi.Update(src) : &src;
 
-	Mat *srcImage = NULL;
+	const Mat *srcImage = NULL;
 	if (isSkewTransform)
 	{
-		m_skewDetect.Transform(src);
+		m_skewDetect.Transform(*psrc);
 		srcImage = &m_skewDetect.m_skewBkgnd;
 	}
 	else
 	{
-		srcImage = (Mat*)&src;
+		srcImage = psrc;
 	}
 
 	if (m_show && !srcImage->empty())

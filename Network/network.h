@@ -25,6 +25,7 @@ namespace network {
 
 #include "launcher.h"
 #include "protocol.h"
+#include "packetqueue.h"
 #include "udpclient.h"
 #include "udpserver.h"
 #include "tcpserver.h"

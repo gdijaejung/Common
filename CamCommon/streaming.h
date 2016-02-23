@@ -23,22 +23,24 @@ namespace cvproc
 	struct sStreamingProtocol
 	{
 		BYTE protocol;		// 프로토콜 타입
-		// protocol = 100, 전송 프로토콜 설정 (TCP/IP) 
-		// Receiver의 IP와 Port, 전송 타입 송신
-		// 
-		// protocol = 101, gray, compressed, compressed quality 설정
-		// gray, compressed, compQuality 값 사용.
-		//
+									// protocol = 100, 전송 프로토콜 설정 (TCP/IP) 
+									// Receiver의 IP와 Port, 전송 타입 송신
+
+									// protocol = 101, gray, compressed, compressed quality, fps 설정
+									// gray, compressed, compQuality 값 사용.
+									//
 
 
 		BYTE type;			// udp=1, tcp=0
-		unsigned int uip;
+		unsigned int uip; // ip address, type long
 		int port;
 		bool gray;
 		bool compressed;
 		int compQuality;
+		int fps;					// 초당 전송 프레임
 	};
 
 
 	const static int g_maxStreamSize = (int)pow(2, 15) - 1;
+	//const static int g_maxStreamSize = (int)pow(2, 14) - 1;
 }

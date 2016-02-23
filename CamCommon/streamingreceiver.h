@@ -20,7 +20,7 @@ namespace cvproc
 		virtual ~cStreamingReceiver();
 
 		bool Init(const bool isUDP, const string &ip, const int port, const int networkCardIdx=0,
-			const int gray = 1, const int compressed = 1, const int jpgComQuality = 40);
+			const int gray = 1, const int compressed = 1, const int jpgComQuality = 40, const int fps=20);
 		cv::Mat& Update();
 		bool IsConnect();
 		void Close();
@@ -30,7 +30,9 @@ namespace cvproc
 		network::cTCPClient m_tcpClient;
 		bool m_isUDP;
 		cv::Mat m_src;
+		cv::vector<uchar> m_compBuffer;
 		cv::Mat m_finalImage;		// 최종 이미지
 		BYTE *m_rcvBuffer;
+		bool m_checkRcv[32]; // debug 용
 	};
 }
