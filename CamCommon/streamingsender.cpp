@@ -232,7 +232,7 @@ int cStreamingSender::SendImage(const BYTE *data, const int len,
 		packet->isGray = isGray? 1 : 0;
 		packet->isCompressed = isCompressed? 1 : 0;
 		packet->data = m_sndBuffer + sizeof(sStreamingData);
- 		memcpy(packet->data, data, len);
+		memcpy(packet->data, data, len);
 
 		for each (auto &session in m_tcpServer.m_sessions)
 		{
@@ -326,7 +326,7 @@ bool cStreamingSender::SendSplit()
 }
 
 
-bool cStreamingSender::IsConnect(const bool isUdp)
+bool cStreamingSender::IsConnect()
 {
 // 	if (isUdp)
 // 		return m_udpClient.IsConnect();

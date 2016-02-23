@@ -50,6 +50,14 @@ bool cStreamingReceiver::Init(const bool isUDP, const string &ip, const int port
 			m_isUDP = false;
 		}
 	}
+	else
+	{
+		sStreamingProtocol data;
+		data.protocol = 100;
+		data.type = 0;
+		m_tcpClient.Send((BYTE*)&data, sizeof(data));
+	}
+
 
 	{
 		// gray, compressed, jpgCompQuality 설정 프로토콜

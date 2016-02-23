@@ -28,3 +28,20 @@ void dbg::Print( const char* fmt, ...)
 	OutputDebugStringA(textString);
 	//OutputDebugStringA("\n");
 }
+
+
+void dbg::Log(const char* fmt, ...)
+{
+	char textString[256] = { '\0' };
+	va_list args;
+	va_start(args, fmt);
+	vsnprintf_s(textString, sizeof(textString), _TRUNCATE, fmt, args);
+	va_end(args);
+
+	FILE *fp = fopen("log.txt", "a+");
+	if (fp)
+	{
+		fputs(textString, fp);
+		fclose(fp);
+	}
+}

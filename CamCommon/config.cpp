@@ -102,11 +102,11 @@ void cCamConfig::UpdateParseData()
 	m_conf.stream_player1_enable = GetBool("streaming_player1_enable");
 	m_conf.stream_player2_enable = GetBool("streaming_player2_enable");
 
-	string stream_send_ip = m_options["streaming_send_ip"];
-	strcpy_s(m_conf.stream_send_ip, stream_send_ip.c_str());
-
-	m_conf.stream_send_port = GetInt("streaming_send_port");
-	m_conf.stream_send_udp = GetBool("streaming_send_udp");
+	m_conf.stream_server_port = GetInt("streaming_server_port");
+// 	string stream_send_ip = m_options["streaming_send_ip"];
+// 	strcpy_s(m_conf.stream_send_ip, stream_send_ip.c_str());
+// 	m_conf.stream_send_port = GetInt("streaming_send_port");
+// 	m_conf.stream_send_udp = GetBool("streaming_send_udp");
 	m_conf.stream_send_gray = GetBool("streaming_send_gray");
 	m_conf.stream_send_compressed = GetBool("streaming_send_compressed");
 	m_conf.streaming_send_quality = GetInt("streaming_send_quality");
@@ -262,6 +262,8 @@ void cCamConfig::InitDefault()
 	m_conf.showCameraFrame = true;
 	m_conf.showCameraThreadFrame = true;
 
+	m_conf.stream_server_port = 8890;
+
 	m_conf.printMachineGunPlayer1XY = false;
 	m_conf.printMachineGunPlayer2XY = false;
 
@@ -338,10 +340,10 @@ bool cCamConfig::Write(const string &fileName)
 
 	m_options["streaming_player1_enable"] = common::format("%d", m_conf.stream_player1_enable);
 	m_options["streaming_player2_enable"] = common::format("%d", m_conf.stream_player2_enable);
-	m_options["streaming_send_ip"] = m_conf.stream_send_ip;
-
-	m_options["streaming_send_port"] = common::format("%d", m_conf.stream_send_port);
-	m_options["streaming_send_udp"] = common::format("%d", m_conf.stream_send_udp);
+	m_options["streaming_server_port"] = common::format("%d", m_conf.stream_server_port);
+//	m_options["streaming_send_ip"] = m_conf.stream_send_ip;
+// 	m_options["streaming_send_port"] = common::format("%d", m_conf.stream_send_port);
+// 	m_options["streaming_send_udp"] = common::format("%d", m_conf.stream_send_udp);
 	m_options["streaming_send_gray"] = common::format("%d", m_conf.stream_send_gray);
 	m_options["streaming_send_compressed"] = common::format("%d", m_conf.stream_send_compressed);
 	m_options["streaming_send_quality"] = common::format("%d", m_conf.streaming_send_quality);

@@ -33,7 +33,7 @@ namespace cvproc
 			const bool isConvertGray=true, const bool isCompressed=true, const int jpgQuality=40);
 		void CheckPacket();
 		int Send(const cv::Mat &image);
-		bool IsConnect(const bool isUdp);
+		bool IsConnect();
 		bool IsExistClient();
 		void Close();
 

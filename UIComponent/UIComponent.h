@@ -5,12 +5,15 @@ using std::pair;
 
 
 #include "DockablePaneBase.h"
+#include "DockablePaneBase2.h"
 #include "DockablePaneChildView.h"
+#include "DockablePaneChildView2.h"
 //#include "Serial.h"
 //#include "BufferedSerial.h"
 //#include "SerialAsync.h"
 //#include "SerialCommunication.h"
 #include "Controller.h"
+#include "Controller2.h"
 #include "PlotWindow.h"
 #include "MultiPlotWindow.h"
 #include "CubeCar.h"
