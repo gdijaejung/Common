@@ -19,9 +19,6 @@ struct sCameraConfig
 
 	bool stream_player1_enable;
 	bool stream_player2_enable;
-//	char stream_send_ip[16];
-// 	int stream_send_port;
-// 	bool stream_send_udp;
 	int stream_server_port;
 	bool stream_send_gray;
 	bool stream_send_compressed;

@@ -664,6 +664,9 @@ IplImage* cDxCapture::GetCloneBufferToImage(const bool cpyImage)
 
 	long size;
 	BYTE *buffer = GetCloneBuffer(size);
+	if (!buffer)
+		return NULL;
+
 	CopyMemory(m_iplImage->imageData, buffer, size);
 	cvFlip(m_iplImage);
 
