@@ -127,10 +127,10 @@ int cStreamingSender::SendImage(const BYTE *data, const int len,
 		packet->isGray = isGray? 1 : 0;
 		packet->isCompressed = isCompressed? 1 : 0;
 		packet->data = m_sndBuffer + sizeof(sStreamingData);
- 		memcpy(packet->data, data, len);
+		memcpy(packet->data, data, len);
 
 		if (m_isUDP)
- 			m_udpClient.SendData((BYTE*)packet, sizeof(sStreamingData) + len);
+			m_udpClient.SendData((BYTE*)packet, sizeof(sStreamingData) + len);
 		else
 			m_tcpClient.Send((BYTE*)packet, sizeof(sStreamingData) + len);
 		return 1;

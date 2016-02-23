@@ -25,6 +25,9 @@ namespace common
 		void	SetRotationX( const float angle );
 		void	SetRotationY( const float angle );
 		void	SetRotationZ( const float angle );
+		void SetRotationXY(const Vector3 &xAxis, const Vector3 &yAxis);
+		void SetRotationXZ(const Vector3 &xAxis, const Vector3 &zAxis);
+		void SetRotationYZ(const Vector3 &yAxis, const Vector3 &zAxis);
 		void	SetTranslate( const Vector3& pos );
 		void	SetScale( const Vector3& scale);
 		Vector3 GetScale() const;

@@ -8,6 +8,7 @@
 class iUpdateObserver
 {
 public:
+	virtual bool Init() { return true; }
 	virtual void Update(const float deltaSeconds) = 0;
 };
 
@@ -20,6 +21,7 @@ public:
 
 	void AddUpdateObserver(iUpdateObserver* observer);
 	void RemoveUpdateObserver(iUpdateObserver* observer);
+	bool NotifyInitObserver();
 	void NotifyUpdateObserver(const float deltaSeconds);
 
 
@@ -42,6 +44,7 @@ inline cUpdateObservable::~cUpdateObservable()
 
 inline void cUpdateObservable::AddUpdateObserver(iUpdateObserver* observer)
 {
+	RET(!observer);
 	RemoveUpdateObserver(observer);
 	m_updatObservers.push_back(observer);
 }
@@ -55,4 +58,14 @@ inline void cUpdateObservable::NotifyUpdateObserver(const float deltaSeconds)
 {
 	BOOST_FOREACH(auto &observer, m_updatObservers)
 		observer->Update(deltaSeconds);
+}
+
+inline bool cUpdateObservable::NotifyInitObserver()
+{
+	BOOST_FOREACH(auto &observer, m_updatObservers)
+	{
+		if (!observer->Init())
+			return false;
+	}
+	return true;
 }
